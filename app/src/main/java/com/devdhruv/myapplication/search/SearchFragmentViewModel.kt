@@ -1,24 +1,42 @@
 package com.devdhruv.myapplication.search
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.devdhruv.myapplication.network.iTunesApi
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 class SearchFragmentViewModel: ViewModel() {
 
-    private fun getArtistProperties(){
-        iTunesApi.retrofitService.getProperties().enqueue(object : Callback<String> {
-            override fun onResponse(call: Call<String>, response: Response<String>) {
-                TODO("Not yet implemented")
-            }
+    private var viewModelJob = Job()
+    private var coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
+    private val _response = MutableLiveData<String>()
 
-        })
+    val response: LiveData<String>
+        get() = _response
+
+
+    private fun getMusicProperties(){
+
+        coroutineScope.launch {
+            var getPropertiesDeferred = iTunesApi.retrofitService.getProperties()
+            try{
+                var listResult = getPropertiesDeferred.await()
+                _response.value = "Success: ${listResult.size} records received"
+            }
+            catch (e: Exception){
+                _response.value = "Failure: ${e.message}"
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        viewModelJob.cancel()
     }
 
 }
