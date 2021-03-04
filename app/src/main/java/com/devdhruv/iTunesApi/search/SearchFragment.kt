@@ -1,12 +1,14 @@
-package com.devdhruv.myapplication.search
+package com.devdhruv.iTunesApi.search
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.devdhruv.myapplication.databinding.FragmentSearchBinding
+import com.devdhruv.iTunesApi.R
+import com.devdhruv.iTunesApi.databinding.FragmentSearchBinding
 
 class SearchFragment : Fragment() {
 
@@ -18,7 +20,12 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSearchBinding.inflate(inflater)
+
+        val binding: FragmentSearchBinding = DataBindingUtil.inflate(
+            inflater, R.layout.fragment_search, container, false)
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
 
         return binding.root

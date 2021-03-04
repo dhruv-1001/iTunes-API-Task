@@ -1,4 +1,4 @@
-package com.devdhruv.myapplication.network
+package com.devdhruv.iTunesApi.network
 
 import com.squareup.moshi.Json
 

@@ -1,4 +1,4 @@
-package com.devdhruv.myapplication
+package com.devdhruv.iTunesApi
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

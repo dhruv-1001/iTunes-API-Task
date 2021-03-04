@@ -1,4 +1,4 @@
-package com.devdhruv.myapplication
+package com.devdhruv.iTunesApi
 
 import org.junit.Test
 
